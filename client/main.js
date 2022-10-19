@@ -13,7 +13,7 @@ const urlSettings = {
       http: 'https',
       ws: 'wss',
     },
-    url: '62fa-37-252-83-91.ngrok.io',
+    url: 'f2dc-37-252-83-91.ngrok.io',
   },
 };
 
@@ -30,9 +30,10 @@ await fetch(`${settings.protocol.http}://${settings.url}/`, {
     name: 'token',
     value: '12345',
   }),
+  credentials: 'include'
 });
 
-const ws = new WebSocket(`${settings.protocol.ws}://${settings.url}/connect`);
+const ws = new WebSocket(`${settings.protocol.ws}://${settings.url}/connect`, ['token', 'test']);
 
 const createSpan = (content = '') => {
   const span = document.createElement('span');

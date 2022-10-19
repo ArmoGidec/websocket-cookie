@@ -6,17 +6,28 @@ import expressWs from 'express-ws';
 const app = expressWs(
   express()
     .use(express.json())
-    .use(cors())
+    .use(cors((req, cb) => {
+      cb(null, {
+        origin: true,
+        credentials: true,
+      });
+    }))
     .use(cookieParser())
 ).app;
 
 app.post('/', (req, res) => {
   const { name, value } = req.body;
-  res.cookie(name, value, {
-    httpOnly: true,
-    path: '/connect',
-    domain: '62fa-37-252-83-91.ngrok.io'
-  }).end();
+  res
+    .cookie(name, value, {
+      domain: 'f2dc-37-252-83-91.ngrok.io',
+      sameSite: 'none',
+      secure: true,
+    })
+    .end();
+}).get('/', (req, res) => {
+  res.send(JSON.stringify({
+    cookies: req.cookies,
+  }));
 });
 
 app.ws('/connect', (ws, req) => {
